@@ -1,0 +1,101 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bitcoin Trading Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Bitcoin Trading Login</h2>
+    <form id="loginForm" action="/login" method="POST">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required>
+      
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</body>
+</html>
+
+2. Frontend - styles.css
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+3. Backend - server.js (Node.js + Express)
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const app = express();
+
+// Use body parser to parse POST requests
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Serve the login page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login.html'));
+});
+
+// Handle login POST request
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  
+  // Sample login credentials (in a real app, you would query a database)
+  const validUsername = 'user123';
+  const validPassword = 'password123';
+
+  if (username === validUsername && password === validPassword) {
+    res.send('Login successful! Redirecting...');
+    // Redirect to your Bitcoin trading page
+    // res.redirect('/trading'); // Replace with actual trading page URL
+  } else {
+    res.send('Invalid credentials. Please try again.');
+  }
+});
+
+// Listen on port 3000
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+});
